@@ -1,0 +1,27 @@
+:host {
+    display: block;
+
+    ul, li {
+        list-style: none;
+    }
+
+    .node-item {
+        position: relative;
+    }
+
+    .node-item__details {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .node-item__icon {
+        width: 12px;
+        height: 12px;
+    }
+
+    .node-item__children {
+        padding-left: 10px;
+    }
+}

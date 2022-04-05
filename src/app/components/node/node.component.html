@@ -1,0 +1,44 @@
+<div *ngIf="isRoot; then addRootDir else headerTemplate"></div>
+
+<ng-template #addRootDir>
+  <button (click)="setState('add')">Add Root Directory</button>
+</ng-template>
+
+<ng-template #headerTemplate>
+  <div *ngIf="!isRoot" class="node-item__details" [attr.aria-label]="node.name">
+    <img class="node-item__icon" [src]="'assets/' + node.type + '-regular.svg'" role="presentation" />
+    <label class="node-item__lbl">{{node.name || node.id}}</label>
+
+    <!-- NodeCtaComponent - new shared component -->  
+    <div class="node-item__cta" *ngIf="node.type === 'folder'">
+      <button (click)="setState('add')" [attr.aria-label]="'Add new file and folder to ' + node.name">+</button>
+      <button (click)="removeNodeItem()" [attr.aria-label]="'Remove ' + node.name">Bin</button>
+    </div>
+  </div>
+</ng-template>
+
+<ul class="node-item__children" *ngIf="node.children && node.children.length > 0" [attr.role]="'treeitem'">
+  <ng-container *ngFor="let childNode of node.children; trackBy: trackByChildNode">
+    <li>
+      <app-node tabindex="0" *ngIf="childNode.type === 'folder' || childNode.type === 'file'" [node]="childNode" [path]="folderPath"
+        (addItem)="addItem.emit($event)" (removeItem)="removeItem.emit($event)"></app-node>
+    </li>
+  </ng-container>
+</ul>
+
+<ng-container [ngSwitch]="state">
+  <!-- NodeCtaComponent - new shared component -->  
+  <div *ngSwitchCase="'add'" class="node-item__new">
+    <button (click)="createNewEntity('file')" [attr.aria-label]="'Add file for ' + node.name">File</button>
+    <button (click)="createNewEntity('folder')" [attr.aria-label]="'Add folder for ' + node.name">Folder</button>
+  </div>
+
+  <!-- NodeCreateComponent - new shared component -->  
+  <div  *ngSwitchCase="'create'" class="node-item__create">
+    <label>Enter name:
+      <input #createInput type="text" placeholder="Name" tabindex="0"/>
+    </label>
+    <button (click)="saveNewItem()" aria-label="Save file">Save</button>
+    <button (click)="cancelCreate()" aria-label="Cancel file">Cancel</button>
+  </div>
+</ng-container>
