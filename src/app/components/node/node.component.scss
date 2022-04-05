@@ -14,6 +14,16 @@
         flex-flow: row nowrap;
         justify-content: flex-start;
         align-items: center;
+
+        .node-item__cta {
+            display: none;
+        }
+
+        &:hover {
+            .node-item__cta {
+                display: inline-block;
+            }
+        }
     }
 
     .node-item__icon {
@@ -24,4 +34,6 @@
     .node-item__children {
         padding-left: 10px;
     }
+
+    
 }

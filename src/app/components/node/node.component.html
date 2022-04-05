@@ -1,7 +1,7 @@
 <div *ngIf="isRoot; then addRootDir else headerTemplate"></div>
 
 <ng-template #addRootDir>
-  <button (click)="setState('add')">Add Root Directory</button>
+  <button (click)="setState('add'); createNewEntity('folder')">Add Folder to Root</button>
 </ng-template>
 
 <ng-template #headerTemplate>
@@ -10,8 +10,8 @@
     <label class="node-item__lbl">{{node.name || node.id}}</label>
 
     <!-- NodeCtaComponent - new shared component -->  
-    <div class="node-item__cta" *ngIf="node.type === 'folder'">
-      <button (click)="setState('add')" [attr.aria-label]="'Add new file and folder to ' + node.name">+</button>
+    <div class="node-item__cta">
+      <button *ngIf="node.type === 'folder'" (click)="setState('add')" [attr.aria-label]="'Add new file and folder to ' + node.name">+</button>
       <button (click)="removeNodeItem()" [attr.aria-label]="'Remove ' + node.name">Bin</button>
     </div>
   </div>
@@ -35,6 +35,7 @@
 
   <!-- NodeCreateComponent - new shared component -->  
   <div  *ngSwitchCase="'create'" class="node-item__create">
+    <img class="node-item__icon" [src]="'assets/' + nodeProxyModel?.type + '-regular.svg'" role="presentation" />
     <label>Enter name:
       <input #createInput type="text" placeholder="Name" tabindex="0"/>
     </label>

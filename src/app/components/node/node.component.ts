@@ -4,22 +4,23 @@ import { NodeModel } from 'src/models/node.model';
 type NodeComponentState = 'add' | 'create' | 'default';
 
 @Component({
-  selector: 'app-node',
-  templateUrl: './node.component.html',
-  styleUrls: ['./node.component.scss'],
+  selector: "app-node",
+  templateUrl: "./node.component.html",
+  styleUrls: ["./node.component.scss"],
 })
 export class NodeComponent implements OnInit {
   /**
    * Attach role to the component host
    */
-  @HostBinding('attr.role') role!: string;
+  @HostBinding("attr.role") role!: string;
 
   /**
    * Input for capturing the new name of a created NodeModel
    */
-  @ViewChild('createInput', {
-    static: false
-  }) createInput?: ElementRef;
+  @ViewChild("createInput", {
+    static: false,
+  })
+  createInput?: ElementRef;
 
   /**
    * Directives
@@ -32,17 +33,17 @@ export class NodeComponent implements OnInit {
    * Emitters
    */
   @Output() addItem: EventEmitter<{
-    path: string[],
-    node: NodeModel
+    path: string[];
+    node: NodeModel;
   }> = new EventEmitter<{
-    path: string[],
-    node: NodeModel
+    path: string[];
+    node: NodeModel;
   }>();
 
   @Output() removeItem: EventEmitter<{
-    path: string[]
+    path: string[];
   }> = new EventEmitter<{
-    path: string[]
+    path: string[];
   }>();
 
   /**
@@ -51,22 +52,22 @@ export class NodeComponent implements OnInit {
   public folderPath: string[] = [];
 
   /**
-   * Component state. Currently, this accepts 'add', 'create' and 'default'. 
+   * Component state. Currently, this accepts 'add', 'create' and 'default'.
    */
-  public state: NodeComponentState = 'default';
+  public state: NodeComponentState = "default";
 
   /** Proxy object to hold the information of a NodeModel to be created */
-  public nodeProxyModel: { type: string, name?: string } | undefined;
+  public nodeProxyModel: { type: string; name?: string } | undefined;
 
   constructor() {}
 
   ngOnInit() {
-    if(this.isRoot) {
-      this.role = 'tree';
+    if (this.isRoot) {
+      this.role = "tree";
     } else {
-      this.role = this.node.type === 'file' ? 'none' : 'treeitem'
+      this.role = this.node.type === "file" ? "none" : "treeitem";
     }
-    
+
     this.folderPath = [...this.path, this.node.id];
   }
 
@@ -75,25 +76,24 @@ export class NodeComponent implements OnInit {
    * of where the new NodeModel will be added.
    */
   saveNewItem() {
-    if(this.createInput) {
+    if (this.createInput && this.createInput.nativeElement.value) {
       this.addItem.emit({
         path: this.folderPath,
         node: new NodeModel({
           ...this.nodeProxyModel,
           name: this.createInput.nativeElement.value,
           children: [],
-          id: `${this.nodeProxyModel!.type}_${NodeModel.generateNewId()}`
-        })
-      })
-
-      this.cancelCreate();
+          id: `${this.nodeProxyModel!.type}_${NodeModel.generateNewId()}`,
+        }),
+      });
     }
-  }
 
+    this.cancelCreate();
+  }
 
   cancelCreate() {
     this.nodeProxyModel = undefined;
-    this.setState('default');
+    this.setState("default");
   }
 
   /**
@@ -102,8 +102,8 @@ export class NodeComponent implements OnInit {
    */
   removeNodeItem() {
     this.removeItem.emit({
-      path: this.folderPath
-    })
+      path: this.folderPath,
+    });
   }
 
   /**
@@ -112,9 +112,9 @@ export class NodeComponent implements OnInit {
    */
   createNewEntity(type: string) {
     this.nodeProxyModel = {
-      type
+      type,
     };
-    this.setState('create');
+    this.setState("create");
   }
 
   /**
