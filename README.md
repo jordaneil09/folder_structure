@@ -1,4 +1,4 @@
-# Mable 
+# Folder structure 
 
 ## Author
 Jordan Estorba

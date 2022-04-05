@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Mable-takehome": {
+    "folder-structure": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mable-takehome",
+            "outputPath": "dist/folder-structure",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -75,10 +75,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "Mable-takehome:build:production"
+              "browserTarget": "folder-structure:build:production"
             },
             "development": {
-              "browserTarget": "Mable-takehome:build:development"
+              "browserTarget": "folder-structure:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Mable-takehome:build"
+            "browserTarget": "folder-structure:build"
           }
         },
         "test": {
@@ -110,5 +110,5 @@
       }
     }
   },
-  "defaultProject": "Mable-takehome"
+  "defaultProject": "folder-structure"
 }

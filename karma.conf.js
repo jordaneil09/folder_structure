@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/mable-takehome'),
+      dir: require('path').join(__dirname, './coverage/folder-structure'),
       subdir: '.',
       reporters: [
         { type: 'html' },
