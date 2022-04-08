@@ -1,7 +1,7 @@
 <div *ngIf="isRoot; then addRootDir else headerTemplate"></div>
 
 <ng-template #addRootDir>
-  <button (click)="setState('add'); createNewEntity('folder')">Add Folder to Root</button>
+  <button id="addRootFolder" (click)="setState('add'); createNewEntity('folder')">Add Folder to root</button>
 </ng-template>
 
 <ng-template #headerTemplate>
@@ -12,15 +12,16 @@
     <!-- NodeCtaComponent - new shared component -->  
     <div class="node-item__cta">
       <button *ngIf="node.type === 'folder'" (click)="setState('add')" [attr.aria-label]="'Add new file and folder to ' + node.name">+</button>
-      <button (click)="removeNodeItem()" [attr.aria-label]="'Remove ' + node.name">Bin</button>
+      <button (click)="removeNodeItem()" [attr.aria-label]="'Remove ' + node.name">-</button>
     </div>
   </div>
 </ng-template>
 
-<ul class="node-item__children" *ngIf="node.children && node.children.length > 0" [attr.role]="'treeitem'">
+<ul class="node-item__children" [class.child-root]="!isRoot" *ngIf="node.children && node.children.length > 0" [attr.role]="'treeitem'">
   <ng-container *ngFor="let childNode of node.children; trackBy: trackByChildNode">
-    <li>
-      <app-node tabindex="0" *ngIf="childNode.type === 'folder' || childNode.type === 'file'" [node]="childNode" [path]="folderPath"
+    <li *ngIf="childNode.type === 'folder' || childNode.type === 'file'">
+      <div class="line-separator"></div>
+      <app-node tabindex="0" [node]="childNode" [path]="folderPath"
         (addItem)="addItem.emit($event)" (removeItem)="removeItem.emit($event)"></app-node>
     </li>
   </ng-container>
@@ -36,9 +37,8 @@
   <!-- NodeCreateComponent - new shared component -->  
   <div  *ngSwitchCase="'create'" class="node-item__create">
     <img class="node-item__icon" [src]="'assets/' + nodeProxyModel?.type + '-regular.svg'" role="presentation" />
-    <label>Enter name:
-      <input #createInput type="text" placeholder="Name" tabindex="0"/>
-    </label>
+    <input #createInput type="text" placeholder="Name" tabindex="0" aria-label="Enter name:"/>
+
     <button (click)="saveNewItem()" aria-label="Save file">Save</button>
     <button (click)="cancelCreate()" aria-label="Cancel file">Cancel</button>
   </div>
